@@ -35,8 +35,7 @@ public class UserServiceImp implements UserService{
         User editedUser = userRepository.findById((long) id).get();
         editedUser.setFirstName(user.getFirstName());
         editedUser.setLastName(user.getLastName());
-        editedUser.setAge(user.getAge());
-        editedUser.setUserLogin(user.getUserLogin());
+        editedUser.setUserName(user.getUserName());
         editedUser.setEmail(user.getEmail());
         userRepository.save(editedUser);
     }
