@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователи</title>
+</head>
+<body>
+<div style="text-align: center; margin-top: 30px;">
+    <h3>Для редактирования пользователя просто нажмите на имя любого из них.</h3>
+</div>
+
+<div style="margin: 20px auto; width: 80%;">
+    <table style="width: 100%; border-collapse: collapse;" border="1">
+        <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th>ID</th>
+            <th>First name</th>
+            <th>Second name</th>
+            <th>Age</th>
+            <th>Login name</th>
+            <th>Email</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}" style="text-align: center;">
+            <td th:text="${user.getId()}"></td>
+            <td>
+                <a th:href="@{'/edit?id=' + ${user.getId()}}" th:text="${user.getFirstName()}"></a>
+            </td>
+            <td th:text="${user.getLastName()}"></td>
+            <td th:text="${user.getAge()}"></td>
+            <td th:text="${user.getUserLogin()}"></td>
+            <td th:text="${user.getEmail()}"></td>
+            <td>
+                <form th:method="POST" th:action="@{/users/delete}" th:object="${user}">
+                    <input type="hidden" name="id" th:value="${user.getId()}"/>
+                    <input type="submit" value="Удалить">
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+    <a href="new">Создать пользователя</a>
+</div>
+</body>
+</html>

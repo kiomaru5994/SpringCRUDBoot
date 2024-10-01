@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Изменить</title>
+</head>
+<body>
+<table align="center" style="margin-top: 50px;">
+    <tr>
+        <td colspan="2" style="text-align: center;">
+            <h2>Изменение пользователя</h2>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <form th:method="POST" th:action="@{/users/edit}" th:object="${user}">
+                <table>
+                    <tr>
+                        <td><label for="firstName">Имя: </label></td>
+                        <td><input type="text" th:field="*{firstName}" id="firstName"/></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><div style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">FirstName Error</div></td>
+                    </tr>
+                    <tr>
+                        <td><label for="lastName">Фамилия:</label></td>
+                        <td><input type="text" th:field="*{lastName}" id="lastName"/></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><div style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">LastName Error</div></td>
+                    </tr>
+                    <tr>
+                        <td><label for="age">Возраст:</label></td>
+                        <td><input type="number" th:field="*{age}" id="age"/></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</div></td>
+                    </tr>
+                    <tr>
+                        <td><label for="userLogin">Логин:</label></td>
+                        <td><input type="text" th:field="*{userLogin}" id="userLogin"/></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><div style="color:red" th:if="${#fields.hasErrors('userLogin')}" th:errors="*{userLogin}">UserLogin Error</div></td>
+                    </tr>
+                    <tr>
+                        <td><label for="email">Email:</label></td>
+                        <td><input type="text" th:field="*{email}" id="email"/></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: right;">
+                            <input type="hidden" name="id" th:value="${user.getId()}">
+                            <input type="submit" value="Сохранить"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
