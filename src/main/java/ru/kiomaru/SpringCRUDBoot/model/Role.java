@@ -3,8 +3,8 @@ package ru.kiomaru.SpringCRUDBoot.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "roles_table")
@@ -16,7 +16,7 @@ public class Role {
     private Long roleId;
 
     @NotEmpty
-    @Column(name = "role_name")
+    @Column(name = "role_name", unique = true)
     private String roleName;
 
     @NotEmpty
@@ -24,7 +24,7 @@ public class Role {
     private String description;
 
     @ManyToMany(mappedBy = "roles")
-    private Set<User> users = new HashSet<>();
+    private List<User> users = new ArrayList<>();
 
     public Role() {
     }
@@ -53,11 +53,11 @@ public class Role {
         this.description = description;
     }
 
-    public Set<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
-    public void setUsers(Set<User> users) {
+    public void setUsers(List<User> users) {
         this.users = users;
     }
 }

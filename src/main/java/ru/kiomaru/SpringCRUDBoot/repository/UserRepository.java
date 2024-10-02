@@ -6,5 +6,7 @@ import ru.kiomaru.SpringCRUDBoot.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-
+    boolean existsByUserName(String username);
+    boolean existsByEmail(String email);
+    boolean existsByTelegramAccount(String telegramAccount);
 }

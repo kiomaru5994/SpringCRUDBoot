@@ -3,11 +3,11 @@ package ru.kiomaru.SpringCRUDBoot.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users_table")
@@ -34,34 +34,37 @@ public class User {
     @Column(name = "gender")
     private String gender;
 
-    @NotEmpty(message = "Введите дату рождения")
-    @Column(name = "date_of_birth")
-    private LocalDate dateOfBirth;
-
     @NotEmpty(message = "Укажите Email")
     @Email(message = "Email некорректный")
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @NotEmpty(message = "Укажите номер телефона")
+    @Pattern(regexp = "^\\+7(\\d{10}|-\\d{3}-\\d{3}-\\d{2}-\\d{2})",
+            message = "Номер телефона в формате +7-123-456-78-90 или +71234567890")
     @Column(name = "phone_number")
     private String phoneNumber;
 
     @NotEmpty(message = "Укажите адрес")
+    @Pattern(regexp = "^([A-Za-zА-Яа-яЁё]+(?:\\s[A-Za-zА-Яа-яЁё]+)*)," +
+            "\\s([A-Za-zА-Яа-яЁё]+(?:\\s[A-Za-zА-Яа-яЁё]+)*)," +
+            "\\s([A-Za-zА-Яа-яЁё]+(?:\\s[A-Za-zА-Яа-яЁё0-9]+)*)," +
+            "\\s(\\d+.*)") // country, city, street, home
     @Column(name = "address")
-    private String address; // country, city, street, home
+    private String address;
 
     @NotEmpty(message = "Укажите ваше гражданство")
     @Column(name = "citizenship")
     private String citizenship;
 
     @NotEmpty(message = "Введите свой телеграм аккаунт (не номер телефона)")
-    @Column(name = "telegram_account")
+    @Column(name = "telegram_account", unique = true)
     private String telegramAccount;
+
 
     @NotEmpty(message = "Login не должен быть пустым")
     @Size(min = 5, max = 15, message = "Никнейм должен содержать от 5 до 15 символов")
-    @Column(name = "user_name")
+    @Column(name = "user_name", unique = true)
     private String userName;
 
     @NotEmpty(message = "Введите пароль")
@@ -76,7 +79,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Role> roles = new HashSet<>();
+    private List<Role> roles = new ArrayList<>();
 
     public User() {
 
@@ -122,13 +125,6 @@ public class User {
         this.gender = gender;
     }
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
 
     public String getEmail() {
         return email;
@@ -154,7 +150,7 @@ public class User {
         this.address = address;
     }
 
-    public @NotEmpty(message = "Укажите ваше гражданство") String getCitizenship() {
+    public String getCitizenship() {
         return citizenship;
     }
 
@@ -186,11 +182,11 @@ public class User {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 }
