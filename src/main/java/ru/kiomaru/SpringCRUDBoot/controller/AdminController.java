@@ -2,7 +2,7 @@ package ru.kiomaru.SpringCRUDBoot.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,12 +19,10 @@ import ru.kiomaru.SpringCRUDBoot.service.UserServiceImp;
 @RequestMapping("/admin")
 public class AdminController {
     private final UserServiceImp userServiceImp;
-    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AdminController(UserServiceImp userServiceImp, PasswordEncoder passwordEncoder) {
+    public AdminController(UserServiceImp userServiceImp) {
         this.userServiceImp = userServiceImp;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping()
