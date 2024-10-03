@@ -25,12 +25,12 @@ public class AdminController {
         this.userServiceImp = userServiceImp;
     }
 
-    @GetMapping()
+    @GetMapping(value = {"", "/"})
     public String index() {
         return "/admin_panel/index";
     }
 
-    @GetMapping("/create")
+    @GetMapping(value = {"/create", "/create/"})
     public String create(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("roles", userServiceImp.getAllRoles());

@@ -1,5 +1,6 @@
 package ru.kiomaru.SpringCRUDBoot.configs;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -18,6 +19,7 @@ public class WebSecurityConfig {
     private final LoginSuccessHandler loginSuccessHandler;
     private final AppUserDetailService appUserDetailService;
 
+    @Autowired
     public WebSecurityConfig(LoginSuccessHandler loginSuccessHandler, AppUserDetailService appUserDetailService) {
         this.loginSuccessHandler = loginSuccessHandler;
         this.appUserDetailService = appUserDetailService;
@@ -28,6 +30,7 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers("/user/**").hasAnyAuthority("USER", "ADMIN")
                         .requestMatchers("/", "/index").permitAll()
                         .anyRequest().authenticated()
                 )
