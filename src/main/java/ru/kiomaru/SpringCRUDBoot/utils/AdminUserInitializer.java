@@ -47,10 +47,10 @@ public class AdminUserInitializer implements CommandLineRunner {
             user.setUserName("Admin");
             user.setRoles(Collections.singletonList(roleRepository.findByRoleName(RoleNames.ADMIN.name())));
             userRepository.save(user);
-            System.out.println("///////////////////////////////////////////////////////////////////////////");
+            System.out.println("////////////////////////////////////////////////////////////////////////////");
             System.out.println("Класс AdminUserInitializer создан для теста, если таблица пользователей в БД пустая - создается один АДМИНИСТРАТОР.");
             System.out.println("Логин по умолчанию - Admin, пароль - administrator");
-            System.out.println("///////////////////////////////////////////////////////////////////////////");
+            System.out.println("////////////////////////////////////////////////////////////////////////////");
         }
     }
 }
