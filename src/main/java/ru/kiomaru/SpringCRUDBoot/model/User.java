@@ -5,13 +5,16 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table(name = "users_table")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @Column(name = "user_id")
@@ -65,10 +68,10 @@ public class User {
     @NotEmpty(message = "Login не должен быть пустым")
     @Size(min = 5, max = 15, message = "Никнейм должен содержать от 5 до 15 символов")
     @Column(name = "user_name", unique = true)
+    @Pattern(regexp = "^[a-zA-Z0-9]+$")
     private String userName;
 
     @NotEmpty(message = "Введите пароль")
-    @Size(min = 6, max = 20, message = "Пароль должен содержать от 6 до 20 символов")
     @Column(name = "password")
     private String password;
 
@@ -176,6 +179,16 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return getUserName();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
     }
 
     public void setPassword(String password) {

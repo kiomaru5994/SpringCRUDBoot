@@ -2,13 +2,14 @@ package ru.kiomaru.SpringCRUDBoot.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "roles_table")
-public class Role {
+public class Role implements GrantedAuthority {
 
     @Id
     @Column(name = "role_id")
@@ -59,5 +60,10 @@ public class Role {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    @Override
+    public String getAuthority() {
+        return getRoleName();
     }
 }

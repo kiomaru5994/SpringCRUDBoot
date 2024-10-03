@@ -2,6 +2,7 @@ package ru.kiomaru.SpringCRUDBoot.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,10 +19,12 @@ import ru.kiomaru.SpringCRUDBoot.service.UserServiceImp;
 @RequestMapping("/admin")
 public class AdminController {
     private final UserServiceImp userServiceImp;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AdminController(UserServiceImp userServiceImp) {
+    public AdminController(UserServiceImp userServiceImp, PasswordEncoder passwordEncoder) {
         this.userServiceImp = userServiceImp;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping()
@@ -39,7 +42,7 @@ public class AdminController {
 
     @PostMapping("/create")
     public String create(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
-        if (userServiceImp.existByUserName(user.getUserName())) {
+        if (userServiceImp.existByUserName(user.getUsername())) {
             bindingResult.rejectValue("userName", "exist.user.username", "Такой логин существует");
         } else if (userServiceImp.existByEmail(user.getEmail())) {
             bindingResult.rejectValue("email", "exist.user.email", "Такой email существует");

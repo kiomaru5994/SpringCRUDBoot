@@ -1,5 +1,6 @@
 package ru.kiomaru.SpringCRUDBoot.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kiomaru.SpringCRUDBoot.enums.Citizenship;
@@ -13,9 +14,11 @@ import java.util.*;
 public class UserServiceImp implements UserService{
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImp(UserRepository userRepository) {
+    public UserServiceImp(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -27,6 +30,7 @@ public class UserServiceImp implements UserService{
     @Override
     @Transactional
     public void save(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
@@ -42,7 +46,7 @@ public class UserServiceImp implements UserService{
         User editedUser = userRepository.findById((long) id).get();
         editedUser.setFirstName(user.getFirstName());
         editedUser.setLastName(user.getLastName());
-        editedUser.setUserName(user.getUserName());
+        editedUser.setUserName(user.getUsername());
         editedUser.setEmail(user.getEmail());
         userRepository.save(editedUser);
     }
