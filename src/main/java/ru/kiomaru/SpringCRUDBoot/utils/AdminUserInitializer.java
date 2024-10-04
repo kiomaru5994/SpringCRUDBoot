@@ -44,7 +44,7 @@ public class AdminUserInitializer implements CommandLineRunner {
             user.setPassword(passwordEncoder.encode("administrator"));
             user.setPhoneNumber("+79999999999");
             user.setTelegramAccount("@Admin");
-            user.setUserName("Admin");
+            user.setUsername("Admin");
             user.setRoles(Collections.singletonList(roleRepository.findByRoleName(RoleNames.ADMIN.name())));
             userRepository.save(user);
             System.out.println("////////////////////////////////////////////////////////////////////////////");

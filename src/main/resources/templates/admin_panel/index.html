@@ -2,9 +2,77 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Админ панель</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            background-color: #222;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .navbar {
+            background-color: #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .navbar a {
+            color: #000;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .content {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+
+        .content h1 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #222;
+            color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
 </head>
 <body>
-Это admin/index
+
+<header>Админ Панель</header>
+
+<div class="navbar" th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="content">
+    <h1>Добро пожаловать в админку</h1>
+    <p>Здесь вы можете создавать, редактировать и удалять пользователей. В навигационном меню доступны следующие действия:</p>
+    <ul>
+        <li><strong>Информация:</strong> Информация о вашем профиле.</li>
+        <li><strong>Список:</strong> Просмотр всех пользователей.</li>
+        <li><strong>Создать:</strong> Создание нового пользователя.</li>
+        <li><strong>Выход:</strong> Выйти из аккаунта.</li>
+    </ul>
+    <p>Для удаления пользователя перейдите в список пользователей и нажмите кнопку "Удалить".</p>
+</div>
+
+<footer>From Eduard Kizilov ;)</footer>
+
 </body>
 </html>

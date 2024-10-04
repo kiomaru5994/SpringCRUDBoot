@@ -1,6 +1,8 @@
 package ru.kiomaru.SpringCRUDBoot.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,27 +38,37 @@ public class UserServiceImp implements UserService{
         userRepository.save(user);
     }
 
-    @Override
     @Transactional(readOnly = true)
-    public User getUser(int id) {
-        return userRepository.findById((long) id).get();
+    public User getUser(String username) {
+        return userRepository.findByUsername(username);
     }
 
     @Override
     @Transactional
-    public void saveEditedUser(int id, User user) {
-        User editedUser = userRepository.findById((long) id).get();
-        editedUser.setFirstName(user.getFirstName());
-        editedUser.setLastName(user.getLastName());
-        editedUser.setUserName(user.getUsername());
-        editedUser.setEmail(user.getEmail());
-        userRepository.save(editedUser);
+    public void saveEditedUser(String username, User user) {
+        User existingUser = userRepository.findByUsername(username);
+        if (existingUser != null) {
+            existingUser.setFirstName(user.getFirstName());
+            existingUser.setLastName(user.getLastName());
+            existingUser.setMiddleName(user.getMiddleName());
+            existingUser.setGender(user.getGender());
+            existingUser.setEmail(user.getEmail());
+            existingUser.setPhoneNumber(user.getPhoneNumber());
+            existingUser.setAddress(user.getAddress());
+            existingUser.setCitizenship(user.getCitizenship());
+            existingUser.setTelegramAccount(user.getTelegramAccount());
+            existingUser.setUsername(user.getUsername());
+            existingUser.setRoles(user.getRoles());
+            existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+
+            userRepository.save(existingUser);
+        }
     }
 
     @Override
     @Transactional
-    public void delete(int id) {
-        userRepository.deleteById((long) id);
+    public void delete(String username) {
+        userRepository.deleteByUsername(username);
     }
 
     public List<String> getAllCountries() {
@@ -71,18 +83,26 @@ public class UserServiceImp implements UserService{
                 .toList();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public boolean existByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public boolean existByUserName(String userName) {
-        return userRepository.existsByUserName(userName);
+        return userRepository.existsByUsername(userName);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public boolean existByTelegramAccount(String tgAccount) {
         return userRepository.existsByTelegramAccount(tgAccount);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public User getUserFromSecurityContext() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserName = authentication.getName();
+        return userRepository.findByUsername(currentUserName);
     }
 }

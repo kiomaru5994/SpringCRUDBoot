@@ -1,10 +1,141 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Информация о пользователе</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .navbar {
+            background-color: #444;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .navbar a:hover {
+            background-color: #555;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        fieldset {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        legend {
+            font-weight: bold;
+            color: #444;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
 </head>
 <body>
-Это user/index
+
+<header>Информация о текущем пользователе</header>
+
+<div class="navbar" th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container">
+    <fieldset>
+        <legend>Основная информация</legend>
+        <p>
+            <label>Имя:</label>
+            <span th:text="${user.firstName}"></span>
+        </p>
+        <p>
+            <label>Фамилия:</label>
+            <span th:text="${user.lastName}"></span>
+        </p>
+        <p>
+            <label>Отчество:</label>
+            <span th:text="${user.middleName}"></span>
+        </p>
+        <p>
+            <label>Пол пользователя:</label>
+            <span th:text="${user.gender}"></span>
+        </p>
+    </fieldset>
+
+    <fieldset>
+        <legend>Контактная информация</legend>
+        <p>
+            <label>Email:</label>
+            <span th:text="${user.email}"></span>
+        </p>
+        <p>
+            <label>Номер телефона:</label>
+            <span th:text="${user.phoneNumber}"></span>
+        </p>
+        <p>
+            <label>Адрес:</label>
+            <span th:text="${user.address}"></span>
+        </p>
+        <p>
+            <label>Гражданство:</label>
+            <span th:text="${user.citizenship}"></span>
+        </p>
+        <p>
+            <label>Аккаунт в Телеграмм:</label>
+            <span th:text="${user.telegramAccount}"></span>
+        </p>
+    </fieldset>
+
+    <fieldset>
+        <legend>Данные для входа</legend>
+        <p>
+            <label>Логин пользователя:</label>
+            <span th:text="${user.username}"></span>
+        </p>
+    </fieldset>
+
+    <fieldset>
+        <legend>Роли пользователя</legend>
+        <ul>
+            <li th:each="role : ${user.roles}" th:text="${role.roleName}"></li>
+        </ul>
+    </fieldset>
+</div>
+
 </body>
 </html>

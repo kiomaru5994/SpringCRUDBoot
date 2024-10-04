@@ -3,9 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <title>Главная страница</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        a:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
-<div style="text-align: center; margin-top: 50px;">
+
+<div class="container">
     <h1>Добро пожаловать на главную страницу</h1>
     <hr>
     <h3>На этом сайте вы можете управлять пользователями в базе данных:</h3>
@@ -14,5 +64,6 @@
     <p>Для работы с данной возможностью вам необходимо авторизоваться:</p>
     <a href="login">Авторизация</a>
 </div>
+
 </body>
 </html>

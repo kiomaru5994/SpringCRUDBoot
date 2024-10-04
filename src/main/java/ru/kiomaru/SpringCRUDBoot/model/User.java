@@ -69,7 +69,7 @@ public class User implements UserDetails {
     @Size(min = 5, max = 15, message = "Никнейм должен содержать от 5 до 15 символов")
     @Column(name = "user_name", unique = true)
     @Pattern(regexp = "^[a-zA-Z0-9]+$")
-    private String userName;
+    private String username;
 
     @NotEmpty(message = "Введите пароль")
     @Column(name = "password")
@@ -169,12 +169,8 @@ public class User implements UserDetails {
         this.telegramAccount = telegramAccount;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     public String getPassword() {
@@ -183,7 +179,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return getUserName();
+        return username;
     }
 
     @Override

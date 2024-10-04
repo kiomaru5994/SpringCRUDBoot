@@ -2,30 +2,56 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Create user</title>
+    <title>Создать пользователя</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .navbar {
+            background-color: #444;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .navbar a:hover {
+            background-color: #555;
         }
 
         h2 {
             text-align: center;
+            margin-top: 20px;
+            color: #444;
         }
 
         .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-        }
-
-        .column {
-            width: 45%;
-            margin-bottom: 20px;
-        }
-
-        .button-container {
-            text-align: center;
-            margin-top: 20px;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
 
         fieldset {
@@ -36,6 +62,7 @@
 
         legend {
             font-weight: bold;
+            color: #444;
         }
 
         p {
@@ -52,125 +79,151 @@
         select {
             width: 100%;
             padding: 8px;
+            margin-top: 5px;
             box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #333;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        span {
+            color: red;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
-<h2>Создание пользователя</h2>
 
-<form th:action="@{/admin/create}" th:object="${user}" method="post">
-    <div class="container">
-        <div class="column">
-            <fieldset>
-                <legend>Основная информация</legend>
+<header>Создание пользователя</header>
 
-                <p>
-                    <label for="firstName">Имя:</label><br>
-                    <input type="text" id="firstName" th:field="*{firstName}" placeholder="*" required/>
-                    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" style="color: red">Ошибка поля</span>
-                </p>
+<div class="navbar" th:replace="fragments/navbar :: navbar"></div>
 
-                <p>
-                    <label for="lastName">Фамилия:</label><br>
-                    <input type="text" id="lastName" th:field="*{lastName}" placeholder="*" required/>
-                    <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" style="color: red">Ошибка поля</span>
-                </p>
+<div class="container">
+    <form th:action="@{/admin/create}" th:object="${user}" method="post">
+        <fieldset>
+            <legend>Основная информация</legend>
 
-                <p>
-                    <label for="middleName">Отчество:</label><br>
-                    <input type="text" id="middleName" th:field="*{middleName}" placeholder="*"/>
-                    <span th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}" style="color: red">Ошибка поля</span>
-                </p>
+            <p>
+                <label for="firstName">Имя:</label><br>
+                <input type="text" id="firstName" th:field="*{firstName}" placeholder="*" required/>
+                <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Ошибка поля</span>
+            </p>
 
-                <p>
-                    Пол пользователя:<br>
-                    <label>
-                        <input type="radio" id="male" th:field="*{gender}" value="male"/> Мужской
-                    </label><br>
-                    <label>
-                        <input type="radio" id="female" th:field="*{gender}" value="female"/> Женский
-                    </label>
-                    <span th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}" style="color: red">Ошибка поля</span>
-                </p>
-            </fieldset>
+            <p>
+                <label for="lastName">Фамилия:</label><br>
+                <input type="text" id="lastName" th:field="*{lastName}" placeholder="*" required/>
+                <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Ошибка поля</span>
+            </p>
+
+            <p>
+                <label for="middleName">Отчество:</label><br>
+                <input type="text" id="middleName" th:field="*{middleName}" placeholder="*"/>
+                <span th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}">Ошибка поля</span>
+            </p>
+
+            <p>
+                Пол пользователя:<br>
+                <label>
+                    <input type="radio" id="male" th:field="*{gender}" value="male"/> Мужской
+                </label><br>
+                <label>
+                    <input type="radio" id="female" th:field="*{gender}" value="female"/> Женский
+                </label>
+                <span th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">Ошибка поля</span>
+            </p>
+        </fieldset>
+
+        <fieldset>
+            <legend>Контактная информация</legend>
+
+            <p>
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" th:field="*{email}" placeholder="*" required/>
+                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Ошибка поля</span>
+            </p>
+
+            <p>
+                <label for="phoneNumber">Номер телефона:</label><br>
+                <input type="text" id="phoneNumber" pattern="^\+7(\d{10}|-\d{3}-\d{3}-\d{2}-\d{2})" th:field="*{phoneNumber}" placeholder="+7-123-456-78-90 | +71234567890" required/>
+                <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">Ошибка поля</span>
+            </p>
+
+            <p>
+                <label for="address">Адрес:</label><br>
+                <input type="text" id="address" pattern="^([A-Za-zА-Яа-яЁё]+(?:\s[A-Za-zА-Яа-яЁё]+)*),\s([A-Za-zА-Яа-яЁё]+(?:\s[A-Za-zА-Яа-яЁё]+)*),\s([A-Za-zА-Яа-яЁё]+(?:\s[A-Za-zА-Яа-яЁё0-9]+)*),\s(\d+.*)" th:field="*{address}" placeholder="Страна, Город, Улица, Дом"/>
+                <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Ошибка поля</span>
+            </p>
+
+            <p>
+                <label for="country">Гражданство:</label><br>
+                <select id="country" th:field="*{citizenship}" required>
+                    <option value="" disabled selected>Выберите страну гражданства</option>
+                    <option th:each="country : ${citizenship}" th:value="${country}" th:text="${country}"></option>
+                </select>
+                <span th:if="${#fields.hasErrors('citizenship')}" th:errors="*{citizenship}">Ошибка поля</span>
+            </p>
+
+            <p>
+                <label for="telegramAccount">Аккаунт в Телеграмм:</label><br>
+                <input type="text" id="telegramAccount" th:field="*{telegramAccount}" placeholder="*"/>
+                <span th:if="${#fields.hasErrors('telegramAccount')}" th:errors="*{telegramAccount}">Ошибка поля</span>
+            </p>
+        </fieldset>
+
+        <fieldset>
+            <legend>Данные для входа</legend>
+
+            <p>
+                <label for="username">Логин пользователя:</label><br>
+                <input type="text" id="username" pattern="^[a-zA-Z0-9]+$" th:field="*{username}" placeholder="*" required/>
+                <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Ошибка поля</span>
+            </p>
+
+            <p>
+                <label for="password">Пароль пользователя:</label><br>
+                <input type="password" id="password" th:field="*{password}" placeholder="*" required/>
+                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Ошибка поля</span>
+            </p>
+        </fieldset>
+
+        <fieldset>
+            <legend>Роли пользователя</legend>
+
+            <p>
+                <label for="role">Роли:</label><br>
+                <select id="role" th:field="*{roles}" multiple="multiple" required>
+                    <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
+                </select>
+                <span th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}">Ошибка поля</span>
+            </p>
+        </fieldset>
+
+        <div class="button-container">
+            <button type="submit">Создать</button>
         </div>
+    </form>
+</div>
 
-        <div class="column">
-            <fieldset>
-                <legend>Контактная информация</legend>
-
-                <p>
-                    <label for="email">Email:</label><br>
-                    <input type="email" id="email" th:field="*{email}" placeholder="*" required/>
-                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red">Ошибка поля</span>
-                </p>
-
-                <p>
-                    <label for="phoneNumber">Номер телефона:</label><br>
-                    <input type="text" id="phoneNumber" pattern="^\+7(\d{10}|-\d{3}-\d{3}-\d{2}-\d{2})" th:field="*{phoneNumber}" placeholder="+7-123-456-78-90 | +71234567890" required/>
-                    <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" style="color: red">Ошибка поля</span>
-                </p>
-
-                <p>
-                    <label for="address">Адрес:</label><br>
-                    <input type="text" id="address" pattern="^([A-Za-zА-Яа-яЁё]+(?:\s[A-Za-zА-Яа-яЁё]+)*),\s([A-Za-zА-Яа-яЁё]+(?:\s[A-Za-zА-Яа-яЁё]+)*),\s([A-Za-zА-Яа-яЁё]+(?:\s[A-Za-zА-Яа-яЁё0-9]+)*),\s(\d+.*)" th:field="*{address}" placeholder="Страна, Город, Улица, Дом"/>
-                    <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}" style="color: red">Ошибка поля</span>
-                </p>
-
-                <p>
-                    <label for="country">Гражданство:</label><br>
-                    <select id="country" th:field="*{citizenship}" required>
-                        <option value="" disabled selected>Выберите страну гражданства</option>
-                        <option th:each="country : ${citizenship}" th:value="${country}" th:text="${country}"></option>
-                    </select>
-                    <span th:if="${#fields.hasErrors('citizenship')}" th:errors="*{citizenship}" style="color: red">Ошибка поля</span>
-                </p>
-
-                <p>
-                    <label for="telegramAccount">Аккаунт в Телеграмм:</label><br>
-                    <input type="text" id="telegramAccount" th:field="*{telegramAccount}" placeholder="*"/>
-                    <span th:if="${#fields.hasErrors('telegramAccount')}" th:errors="*{telegramAccount}" style="color: red">Ошибка поля</span>
-                </p>
-            </fieldset>
-        </div>
-
-        <div class="column">
-            <fieldset>
-                <legend>Данные для входа</legend>
-
-                <p>
-                    <label for="userName">Логин пользователя:</label><br>
-                    <input type="text" id="userName" pattern="^[a-zA-Z0-9]+$" th:field="*{userName}" placeholder="*" required/>
-                    <span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" style="color: red">Ошибка поля</span>
-                </p>
-
-                <p>
-                    <label for="password">Пароль пользователя:</label><br>
-                    <input type="password" id="password" th:field="*{password}" placeholder="*" required/>
-                    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red">Ошибка поля</span>
-                </p>
-            </fieldset>
-        </div>
-
-        <div class="column">
-            <fieldset>
-                <legend>Роли пользователя</legend>
-
-                <p>
-                    <label for="role">Роли:</label><br>
-                    <select id="role" th:field="*{roles}" multiple="multiple" required>
-                        <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
-                    </select>
-                    <span th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}" style="color: red">Ошибка поля</span>
-                </p>
-            </fieldset>
-        </div>
-    </div>
-
-    <div class="button-container">
-        <button type="submit">Создать</button>
-    </div>
-</form>
 </body>
 </html>
